@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liri.reference.dao.MstRiskDao">
+	<select id="checkRiskCountry"
+		resultType="com.liri.reference.model.MstRisk">
+		SELECT risk."ID" from "MST_RISK" risk
+		WHERE risk."FI" ISNULL
+		AND risk."RiskCountry" = #{countryCode}
+		AND risk."CheckType"='01'
+		AND risk."CheckCategory"= '01'
+		AND risk."IsDelete" = 0
+		and (
+		case 
+		when risk."StartDate" is null and risk."EndDate" is null 
+			then <![CDATA[ (to_date(#{nowDate}::TEXT,'yyyy/MM/dd') <= to_date('9999-12-31'::TEXT,'yyyy/MM/dd'))]]>
+		when risk."StartDate" is not null and risk."EndDate" is null 
+			then <![CDATA[ (risk."StartDate" <= to_date(#{nowDate}::TEXT,'yyyy/MM/dd'))
+			and to_date('9999-12-31'::TEXT,'yyyy/MM/dd') >= to_date(#{nowDate}::TEXT,'yyyy/MM/dd')]]>
+		when risk."StartDate" is not null and risk."EndDate" is not null 
+			then <![CDATA[ (risk."StartDate" <= to_date(#{nowDate}::TEXT,'yyyy/MM/dd')) 
+			and risk."EndDate" >= to_date(#{nowDate}::TEXT,'yyyy/MM/dd')]]>
+		else <![CDATA[ (risk."EndDate" >= to_date(#{nowDate}::TEXT,'yyyy/MM/dd'))]]>
+		END
+		)
+		AND (risk."WalletTypeId" ISNULL or risk."WalletTypeId" = #{walletTypeID})
+	</select>
+</mapper>

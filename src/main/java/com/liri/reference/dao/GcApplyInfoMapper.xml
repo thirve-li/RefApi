@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.liri.reference.dao.GcApplyInfoMapper">
+
+	<insert id="insert"
+		parameterType="com.liri.reference.model.GcApplyInfoDto"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO "${schema}"."GC_APPLY_INFO"
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="country != null">
+				"Country",
+			</if>
+			<if test="sendingCurrency != null">
+				"SendingCurrency",
+			</if>
+			<if test="amount != null">
+				"Amount",
+			</if>
+			<if test="benificiaryCurrency != null">
+				"BenificiaryCurrency",
+			</if>
+			<if test="exchangeRate != null">
+				"ExchangeRate",
+			</if>
+			<if test="convertedAmount != null">
+				"ConvertedAmount",
+			</if>
+			<if test="firstName != null">
+				"FirstName",
+			</if>
+			<if test="lastName != null">
+				"LastName",
+			</if>
+			<if test="iAccountNo != null">
+				"IAccountNo",
+			</if>
+			<if test="paymentReferenceNo != null">
+				"PaymentReferenceNo",
+			</if>
+			<if test="email != null">
+				"Email",
+			</if>
+			<if test="fee != null">
+				"Fee",
+			</if>
+			<if test="status != null">
+				"Status",
+			</if>
+			<if test="createUser != null">
+				"CreateUser",
+			</if>
+			<if test="createTime != null">
+				"CreateTime",
+			</if>
+			<if test="updateUser != null">
+				"UpdateUser",
+			</if>
+			<if test="updateTime != null">
+				"UpdateTime",
+			</if>
+			<if test="isDelete != null">
+				"IsDelete",
+			</if>
+			<if test="remark != null">
+				"Remark",
+			</if>
+			<if test="version != null">
+				"Version",
+			</if>
+			<if test="paidAmount != null">
+				"PaidAmount",
+			</if>
+			<if test="orderId != null">
+				"OrderId",
+			</if>
+			<if test="merchantRef != null">
+				"MerchantRef",
+			</if>
+			<if test="paidAmtAfterExchange != null">
+				"PaidAmtAfterExchange",
+			</if>
+			<if test="reflectedAmt != null">
+				"ReflectedAmt",
+			</if>
+			<if test="rejectionCode != null">
+				"RejectionCode",
+			</if>
+			<if test="lastStatus != null">
+				"LastStatus",
+			</if>
+			<if test="paymentMethod != null">
+				"PaymentMethod",
+			</if>
+			<if test="accountNumber != null">
+				"AccountNumber",
+			</if>
+			<if test="accountHolderName != null">
+				"AccountHolderName",
+			</if>
+			<if test="bank != null">
+				"Bank",
+			</if>
+			<if test="city != null">
+				"City",
+			</if>
+			<if test="iban != null">
+				"IBAN",
+			</if>
+			<if test="countrySpecificBankID != null">
+				"CountrySpecificBankID",
+			</if>
+			<if test="swiftCode != null">
+				"Swiftcode",
+			</if>
+			<if test="message != null">
+				"Message",
+			</if>
+			<if test="corporateName != null">
+				"CorporateName",
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+
+			<if test="country != null">
+				#{country,jdbcType=VARCHAR},
+			</if>
+			<if test="sendingCurrency != null">
+				#{sendingCurrency,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=VARCHAR},
+			</if>
+			<if test="benificiaryCurrency != null">
+				#{benificiaryCurrency,jdbcType=VARCHAR},
+			</if>
+			<if test="exchangeRate != null">
+				#{exchangeRate,jdbcType=VARCHAR},
+			</if>
+			<if test="convertedAmount != null">
+				#{convertedAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="firstName != null">
+				#{firstName,jdbcType=VARCHAR},
+			</if>
+			<if test="lastName != null">
+				#{lastName,jdbcType=VARCHAR},
+			</if>
+			<if test="iAccountNo != null">
+				#{iAccountNo,jdbcType=VARCHAR},
+			</if>
+			<if test="paymentReferenceNo != null">
+				#{paymentReferenceNo,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="fee != null">
+				#{fee,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=VARCHAR},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				#{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="version != null">
+				#{version,jdbcType=INTEGER},
+			</if>
+			<if test="paidAmount != null">
+				#{paidAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="orderId != null">
+				#{orderId,jdbcType=INTEGER},
+			</if>
+			<if test="merchantRef != null">
+				#{merchantRef,jdbcType=VARCHAR},
+			</if>
+			<if test="paidAmtAfterExchange != null">
+				#{paidAmtAfterExchange,jdbcType=DECIMAL},
+			</if>
+			<if test="reflectedAmt != null">
+				#{reflectedAmt,jdbcType=DECIMAL},
+			</if>
+			<if test="rejectionCode != null">
+				#{rejectionCode,jdbcType=INTEGER},
+			</if>
+			<if test="lastStatus != null">
+				#{lastStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="paymentMethod != null">
+				#{paymentMethod,jdbcType=VARCHAR},
+			</if>
+			<if test="accountNumber != null">
+				#{accountNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="accountHolderName != null">
+				#{accountHolderName,jdbcType=VARCHAR},
+			</if>
+			<if test="bank != null">
+				#{bank,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=VARCHAR},
+			</if>
+			<if test="iban != null">
+				#{iban,jdbcType=VARCHAR},
+			</if>
+			<if test="countrySpecificBankID != null">
+				#{countrySpecificBankID,jdbcType=VARCHAR},
+			</if>
+			<if test="swiftCode != null">
+				#{swiftCode,jdbcType=VARCHAR},
+			</if>
+			<if test="message != null">
+				#{message,jdbcType=VARCHAR},
+			</if>
+			<if test="corporateName != null">
+				#{corporateName,jdbcType=VARCHAR},
+			</if>
+
+		</trim>
+	</insert>
+
+</mapper>

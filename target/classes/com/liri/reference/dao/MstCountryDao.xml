@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liri.reference.dao.MstCountryDao" >
+  <resultMap id="BaseResultMap" type="com.liri.reference.model.MstCountry" >
+    <id column="CountryCode" property="countryCode" jdbcType="VARCHAR" />
+    <result column="CountryName" property="countryName" jdbcType="VARCHAR" />
+    <result column="LocalizedCountryName" property="localizedCountryName" jdbcType="VARCHAR" />
+    <result column="RegionID" property="regionID" jdbcType="INTEGER" />
+    <result column="Remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createTime" jdbcType="VARCHAR" />
+    <result column="CreateUser" property="createUser" jdbcType="INTEGER" />
+    <result column="UpdateTime" property="updateTime" jdbcType="VARCHAR" />
+    <result column="UpdateUser" property="updateUser" jdbcType="INTEGER" />
+    <result column="IsDelete" property="isDelete" jdbcType="INTEGER" />
+    <result column="Version" property="version" jdbcType="INTEGER" />
+    <result column="WalletTypeID" property="walletTypeID" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    "CountryCode", "CountryName","LocalizedCountryName", "RegionID", "Remarks", "CreateTime",
+    "CreateUser", "UpdateTime", "UpdateUser", "IsDelete", "Version", "WalletTypeID"
+  </sql>
+  <select id="selectAllCountry" resultType="com.liri.reference.model.MstCountry">
+	select c.* FROM "MST_COUNTRY" c LEFT JOIN "MST_WALLETTYPE" w 
+	on c."WalletTypeID" = w."WalletTypeID" where c."IsDelete" = 0
+	and w."WalletTypeCode" = #{walletTypeCode} order by c."CountryName" 
+  </select>
+
+	<select id="selectByCountryName" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		FROM "MST_COUNTRY"
+		where "IsDelete" = 0
+		and "CountryName" = #{countryName,jdbcType=VARCHAR}
+	</select>
+
+	<select id="availableCountryList" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM "MST_COUNTRY"
+		WHERE "IsDelete" = 0
+	</select>
+</mapper>

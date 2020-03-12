@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liri.reference.dao.WalletTypeDao">
+    <resultMap id="BaseResultMap" type="com.liri.reference.model.WalletTypeDto">
+        <id column="WalletTypeID" property="walletTypeID" jdbcType="INTEGER"/>
+        <result column="WalletTypeCode" property="walletTypeCode" jdbcType="VARCHAR"/>
+        <result column="WalletTypeSimpleName" property="walletTypeSimpleName" jdbcType="VARCHAR"/>
+        <result column="WalletTypeFullName" property="walletTypeFullName" jdbcType="VARCHAR"/>
+        <result column="WalletTypeSchema" property="walletTypeSchema" jdbcType="VARCHAR"/>
+        <result column="CompanyID" property="companyID" jdbcType="VARCHAR"/>
+        <result column="Remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="CreateTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="CreateUser" property="createUser" jdbcType="INTEGER"/>
+        <result column="UpdateTime" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="UpdateUser" property="updateUser" jdbcType="INTEGER"/>
+        <result column="IsDelete" property="isDelete" jdbcType="INTEGER"/>
+        <result column="Version" property="version" jdbcType="INTEGER"/>
+        <result column="ContactUsMail" property="contactUsMail" jdbcType="VARCHAR"/>
+        <result column="FromEmail" property="fromEmail" jdbcType="VARCHAR"/>
+        <result column="ThemeName" property="themeName" jdbcType="VARCHAR"/>
+        <result column="Domain" property="domain" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="select" parameterType="com.liri.reference.model.WalletTypeDto" resultMap="BaseResultMap">
+        select "WalletTypeID","WalletTypeCode","WalletTypeSimpleName","WalletTypeFullName",
+            "WalletTypeSchema","CompanyID","Remarks","CreateTime","CreateUser","UpdateTime",
+            "UpdateUser","IsDelete","Version","ContactUsMail","FromEmail","ThemeName","Domain"
+            from "MST_WALLETTYPE" where 1 = 1
+            <if test="walletTypeCode != null and walletTypeCode != ''">
+                and "WalletTypeCode" = #{walletTypeCode,jdbcType=VARCHAR}
+            </if>
+            <if test="walletTypeSchema != null and walletTypeSchema != ''">
+                and "WalletTypeSchema" = #{walletTypeSchema,jdbcType=VARCHAR}
+            </if>
+            <if test="companyID != null and companyID != ''">
+                and "CompanyID" = #{companyID,jdbcType=INTEGER}
+            </if>
+            <if test="walletTypeID != null and walletTypeID != ''">
+                and "WalletTypeID" = #{walletTypeID,jdbcType=INTEGER}
+            </if>
+            <if test="contactUsMail != null and contactUsMail != ''">
+                and "ContactUsMail" = #{contactUsMail,jdbcType=VARCHAR}
+            </if>
+            <if test="fromEmail != null and fromEmail != ''">
+                and "FromEmail" = #{fromEmail,jdbcType=VARCHAR}
+            </if>
+            <if test="themeName != null and themeName != ''">
+                and "ThemeName" = #{themeName,jdbcType=VARCHAR}
+            </if>
+            <if test="domain != null and domain != ''">
+                and "Domain" = #{domain,jdbcType=VARCHAR}
+            </if>
+            <if test="isDelete != null">
+                and "IsDelete" = #{isDelete,jdbcType=INTEGER}
+            </if>
+    </select>
+
+
+    <select id="selectByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select *
+        from "MST_WALLETTYPE" where
+        "WalletTypeCode" = #{walletTypeCode,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="com.liri.reference.model.WalletTypeDto" keyProperty="walletTypeID" useGeneratedKeys="true">
+        insert into "public"."MST_WALLETTYPE"
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="walletTypeCode != null">
+                "WalletTypeCode",
+            </if>
+            <if test="walletTypeFullName != null">
+                "WalletTypeFullName",
+            </if>
+            <if test="walletTypeSimpleName != null">
+                "WalletTypeSimpleName",
+            </if>
+            <if test="walletTypeSchema != null">
+                "WalletTypeSchema",
+            </if>
+            <if test="companyID != null">
+                "CompanyID",
+            </if>
+            <if test="remarks != null">
+                "Remarks",
+            </if>
+            <if test="createTime != null">
+                "CreateTime",
+            </if>
+            <if test="createUser != null">
+                "CreateUser",
+            </if>
+            <if test="isDelete != null">
+                "IsDelete",
+            </if>
+            <if test="version != null">
+                "Version",
+            </if>
+            <if test="contactUsMail != null">
+                "ContactUsMail",
+            </if>
+            <if test="fromEmail != null">
+                "FromEmail",
+            </if>
+            <if test="themeName != null">
+                "ThemeName",
+            </if>
+            <if test="domain != null">
+                "Domain",
+            </if>
+            <if test="masterWalletType != null">
+                "MasterWalletType",
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="walletTypeCode != null">
+                #{walletTypeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="walletTypeFullName != null">
+                #{walletTypeFullName,jdbcType=VARCHAR},
+            </if>
+            <if test="walletTypeSimpleName != null">
+                #{walletTypeSimpleName,jdbcType=VARCHAR},
+            </if>
+            <if test="walletTypeSchema != null">
+                #{walletTypeSchema,jdbcType=VARCHAR},
+            </if>
+            <if test="companyID != null">
+                #{companyID,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUser != null">
+                #{createUser,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=INTEGER},
+            </if>
+            <if test="contactUsMail != null">
+                #{contactUsMail,jdbcType=VARCHAR},
+            </if>
+            <if test="fromEmail != null">
+                #{fromEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="themeName != null">
+                #{themeName,jdbcType=VARCHAR},
+            </if>
+            <if test="domain != null">
+                #{domain,jdbcType=VARCHAR},
+            </if>
+            <if test="masterWalletType != null">
+                #{masterWalletType,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update"
+            parameterType="com.liri.reference.model.WalletTypeDto">
+        update "public"."MST_WALLETTYPE"
+        <set>
+            <if test="walletTypeCode != null and walletTypeCode != ''">
+                "WalletTypeCode"= #{walletTypeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="walletTypeFullName != null and walletTypeFullName != ''">
+                "WalletTypeFullName" = #{walletTypeFullName,jdbcType=VARCHAR},
+            </if>
+            <if test="walletTypeSimpleName != null and walletTypeSimpleName != ''">
+                "WalletTypeSimpleName" = #{walletTypeSimpleName,jdbcType=VARCHAR},
+            </if>
+            <if test="walletTypeSchema != null and walletTypeSchema !=''">
+                "WalletTypeSchema" = #{walletTypeSchema,jdbcType=VARCHAR},
+            </if>
+            <if test="companyID != null and companyID != ''">
+                "CompanyID" = #{companyID,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null ">
+                "Remarks" = #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                "UpdateTime" = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null">
+                "UpdateUser" = #{updateUser,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                "IsDelete" = #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="version != null">
+                "Version" = #{version,jdbcType=INTEGER},
+            </if>
+            <if test="contactUsMail != null">
+                "ContactUsMail" = #{contactUsMail,jdbcType=VARCHAR},
+            </if>
+            <if test="fromEmail != null">
+                "FromEmail" = #{fromEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="themeName != null">
+                "ThemeName" = #{themeName,jdbcType=VARCHAR},
+            </if>
+            <if test="domain != null">
+                "Domain" = #{domain,jdbcType=VARCHAR},
+            </if>
+            <if test="masterWalletType != null">
+                "MasterWalletType" = #{masterWalletType,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where "WalletTypeID" = #{walletTypeID,jdbcType=INTEGER}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM "public"."MST_WALLETTYPE" WHERE "WalletTypeID"=#{id}
+    </delete>
+
+</mapper>

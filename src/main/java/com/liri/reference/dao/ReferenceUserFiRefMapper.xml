@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liri.reference.dao.ReferenceUserFiRefMapper">
+	<select id="selectInfoByMap" parameterType="Map" resultType="com.liri.reference.model.ReferenceUserFiRef">
+		select "ID","AccountNo","FIID","FiAccountId",
+			"Status","Version","IsDelete"
+		from "MoneyInOut"."REFERENCE_USER_FI_REF" where 1 = 1
+		<if test="fIID != null and fIID != ''">
+			and "FIID" = #{fIID}
+		</if>
+		<if test="accountNo != null and accountNo != ''">
+			and "AccountNo" = #{accountNo}
+		</if>
+		<if test="fiAccountId != null and fiAccountId != ''">
+			and "FiAccountId" = #{fiAccountId}
+		</if>
+		and "Status" = '1' and "IsDelete" = '0'
+		
+	</select>
+</mapper>

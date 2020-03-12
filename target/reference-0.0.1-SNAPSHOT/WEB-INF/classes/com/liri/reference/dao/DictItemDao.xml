@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liri.reference.dao.DictItemDao">
+    <resultMap id="BaseResultMap" type="com.liri.reference.model.DictItemDto">
+        <id column="DictItemID" property="dictItemID" jdbcType="INTEGER"/>
+        <result column="ParentID" property="parentID" jdbcType="INTEGER"/>
+        <result column="DictClassCode" property="dictClassCode" jdbcType="VARCHAR"/>
+        <result column="DictItemCode" property="dictItemCode" jdbcType="VARCHAR"/>
+        <result column="DictItemName" property="dictItemName" jdbcType="VARCHAR"/>
+        <result column="DictItemValue" property="dictItemValue" jdbcType="VARCHAR"/>
+        <result column="Sequence" property="sequence" jdbcType="INTEGER"/>
+        <result column="Remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="CreateTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="CreateUser" property="createUser" jdbcType="INTEGER"/>
+        <result column="UpdateTime" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="UpdateUser" property="updateUser" jdbcType="INTEGER"/>
+        <result column="IsReadonly" property="isReadonly" jdbcType="INTEGER"/>
+        <result column="IsDisable" property="isDisable" jdbcType="INTEGER"/>
+        <result column="IsDefault" property="isDefault" jdbcType="INTEGER"/>
+        <result column="IsDelete" property="isDelete" jdbcType="INTEGER"/>
+        <result column="Version" property="version" jdbcType="INTEGER"/>
+        <result column="WalletTypeId" property="walletTypeId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="BaseColumn">
+		"DictItemID", "ParentID", "DictClassCode", "DictItemCode","DictItemName", "DictItemValue", "Sequence",
+		"Remarks", "CreateTime", "CreateUser", "UpdateTime", "UpdateUser", "IsReadonly", "IsDisable", "IsDefault",
+		"IsDelete", "Version", "WalletTypeId"
+	</sql>
+
+    <select id="select" parameterType="com.liri.reference.model.DictItemDto" resultMap="BaseResultMap">
+        select <include refid="BaseColumn"></include> from "DICT_ITEM" where 1 = 1
+        <if test="dictClassCode != null and dictClassCode != ''">
+            and "DictClassCode" = #{dictClassCode,jdbcType=VARCHAR}
+        </if>
+        <if test="dictItemCode != null and dictItemCode != ''">
+            and "DictItemCode" = #{dictItemCode,jdbcType=VARCHAR}
+        </if>
+        <if test="dictItemName != null and dictItemName != ''">
+            and "DictItemName" = #{dictItemName,jdbcType=VARCHAR}
+        </if>
+        <if test="dictItemValue != null and dictItemValue != ''">
+            and "DictItemValue" = #{dictItemValue,jdbcType=VARCHAR}
+        </if>
+        <if test="isDelete != null">
+            and "IsDelete" = #{isDelete,jdbcType=INTEGER}
+        </if>
+        <if test="walletTypeId != null">
+            and "WalletTypeId" = #{walletTypeId,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="selectValueByCode" resultMap="BaseResultMap"
+            parameterType="java.lang.String">
+        select d."DictItemID",d."ParentID",d."DictClassCode",d."DictItemCode",d."DictItemName"
+        ,d."DictItemValue",d."Sequence",d."Remarks",d."CreateTime"
+        ,d."CreateUser",d."UpdateTime",d."UpdateUser",d."IsReadonly"
+        ,d."IsDisable",d."IsDefault",d."IsDelete",d."Version",d."WalletTypeId"
+        from "DICT_ITEM" d LEFT JOIN "MST_WALLETTYPE" w
+        on d."WalletTypeId" = w."WalletTypeID"
+        where "DictItemCode" = #{dictItemCode,jdbcType=VARCHAR}
+        and	d."IsDelete" = '0'
+        <if test="walletTypeCode != null and walletTypeCode != ''">
+            and w."WalletTypeCode" = #{walletTypeCode,jdbcType=VARCHAR}
+        </if>
+    </select>
+</mapper>

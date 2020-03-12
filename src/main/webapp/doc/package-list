@@ -1,0 +1,15 @@
+com.liri.reference
+com.liri.reference.common.beans
+com.liri.reference.common.config
+com.liri.reference.common.constants
+com.liri.reference.common.enums
+com.liri.reference.common.exception
+com.liri.reference.common.interceptor
+com.liri.reference.common.listener
+com.liri.reference.common.task
+com.liri.reference.common.utils
+com.liri.reference.controller
+com.liri.reference.dao
+com.liri.reference.model
+com.liri.reference.service
+com.liri.reference.service.impl

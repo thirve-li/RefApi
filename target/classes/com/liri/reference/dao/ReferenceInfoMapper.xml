@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liri.reference.dao.ReferenceInfoMapper">
+	<resultMap id="BaseResultMap" type="com.liri.reference.model.ReferenceInfoDto">
+		<id column="RefID" property="refID" jdbcType="INTEGER" />
+		<result column="RefNo" property="refNo" jdbcType="VARCHAR" />
+		<result column="CountryCode" property="countryCode" jdbcType="VARCHAR" />
+		<result column="TargetCurrencyCode" property="targetCurrencyCode" jdbcType="VARCHAR" />
+		<result column="IAccountNo" property="iaccountNo" jdbcType="VARCHAR" />
+		<result column="Amount" property="amount" jdbcType="DECIMAL" />
+		<result column="RefCreatedTimestamp" property="refCreatedTimestamp" jdbcType="VARCHAR" />
+		<result column="IsDownload" property="isDownload" jdbcType="INTEGER" />
+		<result column="DownloadTimestamp" property="downloadTimestamp" jdbcType="VARCHAR" />
+		<result column="IsCMSSync" property="isCMSSync" jdbcType="INTEGER" />
+		<result column="CMSSyncTimestamp" property="cmssyncTimestamp" jdbcType="VARCHAR" />
+		<result column="ActualReceiveMoneyDay" property="actualReceiveMoneyDay" jdbcType="VARCHAR" />
+		<result column="ActualSendMoneyUser" property="actualSendMoneyUser" jdbcType="VARCHAR" />
+		<result column="ActualAcceptBank" property="actualAcceptBank" jdbcType="VARCHAR" />
+		<result column="ActualInAccountNo" property="actualInAccountNo" jdbcType="VARCHAR" />
+		<result column="ActualInCurrencyCode" property="actualInCurrencyCode" jdbcType="VARCHAR" />
+		<result column="ActualReactionAmount" property="actualReactionAmount" jdbcType="DECIMAL" />
+		<result column="ActualInPeriod" property="actualInPeriod" jdbcType="VARCHAR" />
+		<result column="ActualInSourceBank" property="actualInSourceBank" jdbcType="VARCHAR" />
+		<result column="ActualInMessage" property="actualInMessage" jdbcType="VARCHAR" />
+		<result column="ActualInComment" property="actualInComment" jdbcType="VARCHAR" />
+		<result column="ActualReceiveOrg" property="actualReceiveOrg" jdbcType="VARCHAR" />
+		<result column="SlipNo" property="slipNo" jdbcType="VARCHAR" />
+		<result column="ActualInAmount" property="actualInAmount" jdbcType="DECIMAL" />
+		<result column="ActualCharge" property="actualCharge" jdbcType="DECIMAL" />
+		<result column="ActualType" property="actualType" jdbcType="VARCHAR" />
+		<result column="ActualDescription" property="actualDescription" jdbcType="VARCHAR" />
+		<result column="ActualStatementFileName" property="actualStatementFileName" jdbcType="VARCHAR" />
+		<result column="Remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="CreateTime" property="createTime" jdbcType="VARCHAR" />
+		<result column="CreateUser" property="createUser" jdbcType="INTEGER" />
+		<result column="UpdateTime" property="updateTime" jdbcType="VARCHAR" />
+		<result column="UpdateUser" property="updateUser" jdbcType="INTEGER" />
+		<result column="IsDelete" property="isDelete" jdbcType="INTEGER" />
+		<result column="Version" property="version" jdbcType="INTEGER" />
+		<result column="FIAccountID" property="fiAccountID" jdbcType="INTEGER" />
+		<result column="ProcessorIacNo" property="processorIacNo" jdbcType="VARCHAR" />
+		<result column="ProcessorEmail" property="processorEmail" jdbcType="VARCHAR" />
+
+		<result column="Sender" property="sender" jdbcType="VARCHAR" />
+		<result column="UserType" property="userType" jdbcType="VARCHAR" />
+		<result column="SenderType" property="senderType" jdbcType="VARCHAR" />
+		<result column="OtherWay" property="otherWay" jdbcType="VARCHAR" />
+		<result column="FirstName" property="firstName" jdbcType="VARCHAR" />
+		<result column="MidName" property="midName" jdbcType="VARCHAR" />
+		<result column="LastName" property="lastName" jdbcType="VARCHAR" />
+		<result column="SenderEmail" property="senderEmail" jdbcType="VARCHAR" />
+		<result column="CorporateName" property="corporateName" jdbcType="VARCHAR" />
+		
+		
+		<result column="WayOfTransfer" property="wayOfTransfer" jdbcType="VARCHAR" />
+		<result column="WayOfTransferCode" property="wayOfTransferCode" jdbcType="VARCHAR" />
+		<result column="SourceOfFunds" property="sourceOfFunds" jdbcType="VARCHAR" />
+		<result column="SourceOfFundsCode" property="sourceOfFundsCode" jdbcType="VARCHAR" />
+		<result column="Reason" property="reason" jdbcType="VARCHAR" /> 
+		<result column="othersEmail" property="othersEmail" jdbcType="VARCHAR" />
+		
+		<result column="Purpose" property="purpose" jdbcType="VARCHAR" />
+		<result column="PurposeName" property="purposeName" jdbcType="VARCHAR" />
+		<result column="DetailsOfPurpose" property="detailsOfPurpose" jdbcType="VARCHAR" /> 
+		
+		<!-- 新增字段 -->
+		<result column="Birthday" property="birthday" jdbcType="VARCHAR" /> 
+		<result column="StreetAddress" property="streetAddress" jdbcType="VARCHAR" /> 
+		<result column="IdType" property="idType" jdbcType="VARCHAR" /> 
+		<result column="IdNum" property="idNum" jdbcType="VARCHAR" /> 
+		<result column="EstablishmentDate" property="establishmentDate" jdbcType="VARCHAR" /> 
+		<result column="CorporateNum" property="corporateNum" jdbcType="VARCHAR" /> 
+		<result column="OtherIdType" property="otherIdType" jdbcType="VARCHAR" />
+		
+		<result column="SupportEvidence" property="supportEvidence" jdbcType="VARCHAR" />
+		<result column="SenderIdEvidence" property="senderIdEvidence" jdbcType="VARCHAR" />
+		<result column="SenderAddressEvidence" property="senderAddressEvidence" jdbcType="VARCHAR" />
+		<result column="CorporateEvidence" property="corporateEvidence" jdbcType="VARCHAR" />
+		<result column="RemittanceEvidence" property="remittanceEvidence" jdbcType="VARCHAR" />
+		<result column="CorporateSupportEvidence" property="corporateSupportEvidence" jdbcType="VARCHAR" />
+		<result column="KycMemo" property="kycMemo" jdbcType="VARCHAR" />
+		
+		<result column="LegalStatus" property="legalStatus" jdbcType="VARCHAR" />
+		<result column="LegalReason" property="legalReason" jdbcType="VARCHAR" />
+		<result column="LegalOptUser" property="legalOptUser" jdbcType="VARCHAR" />
+		<result column="OpsStatus" property="opsStatus" jdbcType="VARCHAR" />
+		<result column="OpsReason" property="opsReason" jdbcType="VARCHAR" />
+		<result column="OpsOptUser" property="opsOptUser" jdbcType="VARCHAR" />
+		<result column="AbdMemo" property="abdMemo" jdbcType="VARCHAR" />
+		<result column="AccountName" property="accountName" jdbcType="VARCHAR" />
+		<result column="Lang" property="lang" jdbcType="VARCHAR" />
+		<result column="WalletTypeID" property="walletTypeID" jdbcType="INTEGER" />
+		<result column="ILexUserID" property="iLexUserID" jdbcType="VARCHAR" />
+		<result column="TicketNum" property="ticketNum" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		"RefID", "RefNo", "CountryCode", "TargetCurrencyCode", "IAccountNo", "Amount","RefCreatedTimestamp",
+		"IsDownload", "DownloadTimestamp", "IsCMSSync", "CMSSyncTimestamp","ActualReceiveMoneyDay", 
+		"ActualSendMoneyUser","ActualAcceptBank", "ActualInAccountNo","ActualInCurrencyCode",
+		"ActualReactionAmount","ActualInPeriod","ActualInSourceBank","ActualInMessage","ActualInComment",
+		"ActualReceiveOrg","SlipNo","ActualInAmount","ActualCharge","ActualType","ActualDescription",
+		"ActualStatementFileName","ActualStatementFileName","CreateTime","CreateUser","UpdateTime",
+		"UpdateUser","IsDelete","Version","FIAccountID","ProcessorIacNo","ProcessorEmail","Sender",
+		"FirstName","MidName","LastName" ,"CorporateName","WayOfTransfer","SourceOfFunds","Reason",
+		"OthersEmail" ,"WayOfTransferCode","SourceOfFundsCode","SenderType","OtherWay","Purpose","PurposeName",
+		"DetailsOfPurpose","Birthday","StreetAddress","IdType","IdNum","EstablishmentDate","CorporateNum",
+		"OtherIdType","SupportEvidence","SenderIdEvidence","SenderAddressEvidence","CorporateEvidence",
+		"RemittanceEvidence","LegalStatus","LegalReason","LegalOptUser","OpsStatus","OpsReason","OpsOptUser",
+		"AbdMemo","CorporateSupportEvidence","Lang","AccountName","WalletTypeID",TicketNum
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from ${walletTypeSchema}."REFERENCE_INFO"
+		where "IsDelete" = 0
+		and "RefID" = #{refID,jdbcType=INTEGER}
+	</select>
+	
+	
+	<select id="selectByTicketNum" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		select count(*) from "MoneyInOut_ILEX"."REFERENCE_INFO"
+		WHERE "TicketNum" = #{ticketNum,jdbcType=VARCHAR}
+	</select>
+	
+	
+	<insert id="insert" parameterType="com.liri.reference.model.ReferenceInfoDto" useGeneratedKeys="true" keyProperty="refID">
+		insert into "${walletTypeSchema}"."REFERENCE_INFO"
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="refNo != null">
+				"RefNo",
+			</if>
+			<if test="countryCode != null">
+				"CountryCode",
+			</if>
+			<if test="targetCurrencyCode != null">
+				"TargetCurrencyCode",
+			</if>
+			<if test="iaccountNo != null">
+				"IAccountNo",
+			</if>
+			<if test="amount != null">
+				"Amount",
+			</if>
+			<if test="refCreatedTimestamp != null">
+				"RefCreatedTimestamp",
+			</if>
+			<if test="isDownload != null">
+				"IsDownload",
+			</if>
+			<if test="downloadTimestamp != null">
+				"DownloadTimestamp",
+			</if>
+			<if test="isCMSSync != null">
+				"IsCMSSync",
+			</if>
+			<if test="cmssyncTimestamp != null">
+				"CMSSyncTimestamp",
+			</if>
+			<if test="actualReceiveMoneyDay != null">
+				"ActualReceiveMoneyDay",
+			</if>
+			<if test="actualSendMoneyUser != null">
+				"ActualSendMoneyUser",
+			</if>
+			<if test="actualAcceptBank != null">
+				"ActualAcceptBank",
+			</if>
+			<if test="actualInAccountNo != null">
+				"ActualInAccountNo",
+			</if>
+			<if test="actualInCurrencyCode != null">
+				"ActualInCurrencyCode",
+			</if>
+			<if test="actualReactionAmount != null">
+				"ActualReactionAmount",
+			</if>
+			<if test="actualInPeriod != null">
+				"ActualInPeriod",
+			</if>
+			<if test="actualInSourceBank != null">
+				"ActualInSourceBank",
+			</if>
+			<if test="actualInMessage != null">
+				"ActualInMessage",
+			</if>
+			<if test="actualInComment != null">
+				"ActualInComment",
+			</if>
+			<if test="actualReceiveOrg != null">
+				"ActualReceiveOrg",
+			</if>
+			<if test="slipNo != null">
+				"SlipNo",
+			</if>
+			<if test="actualInAmount != null">
+				"ActualInAmount",
+			</if>
+			<if test="actualCharge != null">
+				"ActualCharge",
+			</if>
+			<if test="actualType != null">
+				"ActualType",
+			</if>
+			<if test="actualDescription != null">
+				"ActualDescription",
+			</if>
+			<if test="actualStatementFileName != null">
+				"ActualStatementFileName",
+			</if>
+			<if test="remarks != null">
+				"Remarks",
+			</if>
+			<if test="createTime != null">
+				"CreateTime",
+			</if>
+			<if test="createUser != null">
+				"CreateUser",
+			</if>
+			<if test="updateTime != null">
+				"UpdateTime",
+			</if>
+			<if test="updateUser != null">
+				"UpdateUser",
+			</if>
+			<if test="isDelete != null">
+				"IsDelete",
+			</if>
+			<if test="version != null">
+				"Version",
+			</if>
+			<if test="fiAccountID != null">
+				"FIAccountID",
+			</if>
+			<if test="processorIacNo != null">
+				"ProcessorIacNo",
+			</if>
+			<if test="processorEmail != null">
+				"ProcessorEmail",
+			</if>
+			<if test="sender != null">
+				"Sender",
+			</if>
+			
+			<if test="userType != null">
+				"UserType",
+			</if>
+
+			<if test="firstName != null">
+				"FirstName",
+			</if>
+
+			<if test="midName != null">
+				"MidName",
+			</if>
+
+			<if test="lastName != null">
+				"LastName",
+			</if>
+			
+			<if test="corporateName != null">
+				"CorporateName",
+			</if>
+			
+			<if test="wayOfTransfer != null">
+				"WayOfTransfer",
+			</if>
+			<if test="sourceOfFunds != null">
+				"SourceOfFunds",
+			</if>
+			<if test="reason != null">
+				"Reason",
+			</if>
+			 
+			<if test="othersEmail != null">
+				"OthersEmail",
+			</if>
+			<if test="wayOfTransferCode != null">
+				"WayOfTransferCode",
+			</if>
+			<if test="sourceOfFundsCode != null">
+				"SourceOfFundsCode",
+			</if>
+			
+			<if test="senderType != null">
+				"SenderType",
+			</if>
+			<if test="otherWay != null">
+				"OtherWay",
+			</if>
+			
+			<if test="purpose != null">
+				"Purpose",
+			</if>
+			<if test="purposeName != null">
+				"PurposeName",
+			</if>
+			
+			<if test="detailsOfPurpose != null">
+				"DetailsOfPurpose",
+			</if>
+			<if test="birthday != null">
+				"Birthday",
+			</if>
+			<if test="streetAddress != null">
+				"StreetAddress",
+			</if>
+			<if test="idType != null">
+				"IdType",
+			</if>
+			<if test="idNum != null">
+				"IdNum",
+			</if>
+			<if test="establishmentDate != null">
+				"EstablishmentDate",
+			</if>
+			<if test="corporateNum != null">
+				"CorporateNum",
+			</if>
+			<if test="otherIdType != null">
+				"OtherIdType",
+			</if>
+			<if test="supportEvidence != null">
+				"SupportEvidence",
+			</if>
+			<if test="senderIdEvidence != null">
+				"SenderIdEvidence",
+			</if>
+			<if test="senderAddressEvidence != null">
+				"SenderAddressEvidence",
+			</if>
+			<if test="corporateEvidence != null">
+				"CorporateEvidence",
+			</if>
+			<if test="remittanceEvidence != null">
+				"RemittanceEvidence",
+			</if>
+			
+			<if test="legalStatus != null">
+				"LegalStatus",
+			</if>
+			<if test="legalReason != null">
+				"LegalReason",
+			</if>
+			<if test="legalOptUser != null">
+				"LegalOptUser",
+			</if>
+			<if test="opsStatus != null">
+				"OpsStatus",
+			</if>
+			<if test="opsReason != null">
+				"OpsReason",
+			</if>
+			<if test="opsOptUser != null">
+				"OpsOptUser",
+			</if>
+			<if test="abdMemo != null">
+				"AbdMemo",
+			</if>
+			<if test="corporateSupportEvidence != null">
+				"CorporateSupportEvidence",
+			</if>
+			<if test="lang != null">
+				"Lang",
+			</if>
+			<if test="accountName != null">
+				"AccountName",
+			</if>
+			<if test="walletTypeID != null">
+				"WalletTypeID",
+			</if>
+			<if test="iLexUserID != null">
+				"ILexUserID",
+			</if>
+			<if test="ticketNum != null">
+				"TicketNum",
+			</if>
+			<if test="kycMemo != null">
+				"KycMemo",
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="refNo != null">
+				#{refNo,jdbcType=VARCHAR},
+			</if>
+			<if test="countryCode != null">
+				#{countryCode,jdbcType=VARCHAR},
+			</if>
+			<if test="targetCurrencyCode != null">
+				#{targetCurrencyCode,jdbcType=VARCHAR},
+			</if>
+			<if test="iaccountNo != null">
+				#{iaccountNo,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="refCreatedTimestamp != null">
+				#{refCreatedTimestamp,jdbcType=VARCHAR},
+			</if>
+			<if test="isDownload != null">
+				#{isDownload,jdbcType=INTEGER},
+			</if>
+			<if test="downloadTimestamp != null">
+				#{downloadTimestamp,jdbcType=VARCHAR},
+			</if>
+			<if test="isCMSSync != null">
+				#{isCMSSync,jdbcType=INTEGER},
+			</if>
+			<if test="cmssyncTimestamp != null">
+				#{cmssyncTimestamp,jdbcType=VARCHAR},
+			</if>
+			<if test="actualReceiveMoneyDay != null">
+				#{actualReceiveMoneyDay,jdbcType=VERCHAR},
+			</if>
+			<if test="actualSendMoneyUser != null">
+				#{actualSendMoneyUser,jdbcType=VARCHAR},
+			</if>
+			<if test="actualAcceptBank != null">
+				#{actualAcceptBank,jdbcType=VARCHAR},
+			</if>
+			<if test="actualInAccountNo != null">
+				#{actualInAccountNo,jdbcType=VARCHAR},
+			</if>
+			<if test="actualInCurrencyCode != null">
+				#{actualInCurrencyCode,jdbcType=VARCHAR},
+			</if>
+			<if test="actualReactionAmount != null">
+				#{actualReactionAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="actualInPeriod != null">
+				#{actualInPeriod,jdbcType=VARCHAR},
+			</if>
+			<if test="actualInSourceBank != null">
+				#{actualInSourceBank,jdbcType=VARCHAR},
+			</if>
+			<if test="actualInMessage != null">
+				#{actualInMessage,jdbcType=VARCHAR},
+			</if>
+			<if test="actualInComment != null">
+				#{actualInComment,jdbcType=VARCHAR},
+			</if>
+			<if test="actualReceiveOrg != null">
+				#{actualReceiveOrg,jdbcType=VARCHAR},
+			</if>
+			<if test="slipNo != null">
+				#{slipNo,jdbcType=VARCHAR},
+			</if>
+			<if test="actualInAmount != null">
+				#{actualInAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="actualCharge != null">
+				#{actualCharge,jdbcType=DECIMAL},
+			</if>
+			<if test="actualType != null">
+				#{actualType,jdbcType=VARCHAR},
+			</if>
+			<if test="actualDescription != null">
+				#{actualDescription,jdbcType=VARCHAR},
+			</if>
+			<if test="actualStatementFileName != null">
+				#{actualStatementFileName,jdbcType=VARCHAR},
+			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=VARCHAR},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=VARCHAR},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="isDelete != null">
+				#{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="version != null">
+				#{version,jdbcType=INTEGER},
+			</if>
+			<if test="fiAccountID != null">
+				#{fiAccountID,jdbcType=INTEGER},
+			</if>
+			<if test="processorIacNo != null">
+				#{processorIacNo,jdbcType=VARCHAR},
+			</if>
+			<if test="processorEmail != null">
+				#{processorEmail,jdbcType=VARCHAR},
+			</if>
+
+			<if test="sender != null">
+				#{sender,jdbcType=VARCHAR},
+			</if>
+			<if test="userType != null">
+				#{userType,jdbcType=VARCHAR},
+			</if>
+			<if test="firstName != null">
+				#{firstName,jdbcType=VARCHAR},
+			</if>
+			<if test="midName != null">
+				#{midName,jdbcType=VARCHAR},
+			</if>
+			<if test="lastName != null">
+				#{lastName,jdbcType=VARCHAR},
+			</if>
+			<if test="corporateName != null">
+				#{corporateName,jdbcType=VARCHAR},
+			</if>
+		 
+			<if test="wayOfTransfer != null">
+				#{wayOfTransfer,jdbcType=VARCHAR},
+			</if>
+			<if test="sourceOfFunds != null">
+				#{sourceOfFunds,jdbcType=VARCHAR},
+			</if>
+			<if test="reason != null">
+				#{reason,jdbcType=VARCHAR},
+			</if>
+			 
+			<if test="othersEmail != null">
+				#{othersEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="wayOfTransferCode != null">
+				#{wayOfTransferCode,jdbcType=VARCHAR},
+			</if>
+			<if test="sourceOfFundsCode != null">
+				#{sourceOfFundsCode,jdbcType=VARCHAR},
+			</if> 
+			
+			<if test="senderType != null">
+				#{senderType,jdbcType=VARCHAR},
+			</if>
+			<if test="otherWay != null">
+				#{otherWay,jdbcType=VARCHAR}, 
+			</if> 
+			<if test="purpose != null">
+				#{purpose,jdbcType=VARCHAR},
+			</if>  
+			<if test="purposeName != null">
+				#{purposeName,jdbcType=VARCHAR},
+			</if>
+			<if test="detailsOfPurpose != null">
+				#{detailsOfPurpose,jdbcType=VARCHAR}, 
+			</if>  
+			<if test="birthday != null">
+				#{birthday,jdbcType=VARCHAR}, 
+			</if>
+			<if test="streetAddress != null">
+				#{streetAddress,jdbcType=VARCHAR}, 
+			</if>
+			<if test="idType != null">
+				#{idType,jdbcType=VARCHAR}, 
+			</if>
+			<if test="idNum != null">
+				#{idNum,jdbcType=VARCHAR}, 
+			</if>
+			<if test="establishmentDate != null">
+				#{establishmentDate,jdbcType=VARCHAR}, 
+			</if>
+			<if test="corporateNum != null">
+				#{corporateNum,jdbcType=VARCHAR}, 
+			</if>
+			<if test="otherIdType != null">
+				#{otherIdType,jdbcType=VARCHAR}, 
+			</if>
+			<if test="supportEvidence != null">
+				#{supportEvidence,jdbcType=VARCHAR}, 
+			</if>
+			<if test="senderIdEvidence != null">
+				#{senderIdEvidence,jdbcType=VARCHAR}, 
+			</if>
+			<if test="senderAddressEvidence != null">
+				#{senderAddressEvidence,jdbcType=VARCHAR}, 
+			</if>
+			<if test="corporateEvidence != null">
+				#{corporateEvidence,jdbcType=VARCHAR}, 
+			</if>
+			<if test="remittanceEvidence != null">
+				#{remittanceEvidence,jdbcType=VARCHAR}, 
+			</if>
+			
+			<if test="legalStatus != null">
+				#{legalStatus,jdbcType=VARCHAR}, 
+			</if>
+			<if test="legalReason != null">
+				#{legalReason,jdbcType=VARCHAR}, 
+			</if>
+			<if test="legalOptUser != null">
+				#{legalOptUser,jdbcType=VARCHAR}, 
+			</if>
+			<if test="opsStatus != null">
+				#{opsStatus,jdbcType=VARCHAR}, 
+			</if>
+			<if test="opsReason != null">
+				#{opsReason,jdbcType=VARCHAR}, 
+			</if>
+			<if test="opsOptUser != null">
+				#{opsOptUser,jdbcType=VARCHAR}, 
+			</if>
+			<if test="abdMemo != null">
+				#{abdMemo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="corporateSupportEvidence != null">
+				#{corporateSupportEvidence,jdbcType=VARCHAR}, 
+			</if>
+			<if test="lang != null">
+				#{lang,jdbcType=VARCHAR}, 
+			</if>
+			<if test="accountName != null">
+				#{accountName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="walletTypeID != null">
+				#{walletTypeID,jdbcType=INTEGER}, 
+			</if>
+			<if test="iLexUserID != null">
+				#{iLexUserID,jdbcType=VARCHAR}, 
+			</if>
+			<if test="ticketNum != null">
+				#{ticketNum,jdbcType=VARCHAR}, 
+			</if>
+			<if test="kycMemo != null">
+				#{kycMemo,jdbcType=VARCHAR}, 
+			</if>
+		</trim>
+	</insert>
+	
+	<select id="getHistoryRefNo" resultType="java.lang.String" parameterType="java.lang.String">
+	    select "RefNo" from ${userSchema}."REFERENCE_INFO" 
+			WHERE 1=1
+		 <if test="searchType=='personal' ">
+						and "FirstName"=#{firstName,jdbcType=VARCHAR}
+						and "MidName" =#{midName,jdbcType=VARCHAR}
+						and "LastName" =#{lastName,jdbcType=VARCHAR}
+					
+			</if>
+
+			<if test="searchType=='corporation'">
+			    
+					and "CorporateName"=#{corporateName,jdbcType=VARCHAR}
+			</if>
+		 
+			
+	</select>
+	
+	<select id="getMoneyInHistory" resultType="com.liri.reference.model.BankInInfoDto"
+	parameterType="java.lang.String">
+			select "OriginalCurrency" ,"OriginalAmount" from ${walletTypeSchema}."IMP_BANK_IN_INFO" 
+			    where "BankIn_ReceiveRefNo"=#{refNo,jdbcType=VARCHAR} and "BankIn_RemittanceBank"=#{fiSimpleName,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getWalletSchemaByCompanyId" resultType="java.lang.String" parameterType="java.lang.String">
+	        SELECT "WalletTypeSchema" from "MST_WALLETTYPE" 
+			WHERE string_to_array("CompanyID",',') <![CDATA[ @> ]]> string_to_array(#{companyId,jdbcType=VARCHAR},',')
+			and "IsDelete"=0
+	</select>
+</mapper>

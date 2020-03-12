@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Reference</title>
+    <link href="iac.css" rel="stylesheet"/>
+    <script src="jquery-1.9.1.js"></script>
+</head>
+<body>
+<h1>Reference</h1>
+<script>
+
+   /* $.ajax({
+        type: "POST",
+        data: {
+            walletTypeCode: '00011',
+            walletTypeSimpleName: "iac",
+        },
+        url: "http://localhost:8080/wallet/list",
+        dataType: "json",
+        success: function (response) {
+            alert('返回成功！')
+        },
+        error: function (e) {
+            alert("发生错误：" + e.status)
+        }
+    })*/
+
+</script>
+获取Token Template3 <br>
+<form action="auth/token" method="post">
+    code<input type="text" name="code" value="bGlyaTAwMDA"><br>
+
+    accountNo<input type="text" name="accountNo" value="223"><br>
+
+    walletTypeCode  <input type="text"name="walletTypeCode" value="00208"><br>
+
+    <input type="submit" value="Get Token" />
+</form><br><br>
+推荐银行 <br>
+<form action="api/getBank" method="post">
+
+    国家<input type="text" name="countryCode" value="CN"><br>
+
+    汇款币种 currencyCode <input type="text"name="currencyCode" value="USD"><br>
+
+    汇款金额  <input type="text" name="amount" value="100"><br>
+
+    用户类型 个人 personal 法人 corporation <input type="text" name="userType" value="personal"><br>
+
+    汇款人 Myself / Others  <input type="text" name="sender" value="Myself"><br>
+
+    汇款人类别 Individual / Corporate  <input type="text" name="senderType" value="Individual"><br>
+
+     accountNo <input type="text" name="accountNo" value="1321"><br>
+
+     walletTypeCode <input type="text" name="walletTypeCode" value="00208"><br>
+
+     token <input type="text" name="token" value="" size="50"> <br>
+
+    <input type="submit" value="Recommend Bank" />
+</form><br><br>
+
+RefConfirm <br>
+<form action="api/refConfirm" method="post">
+
+    /************Reference参数 开始11*******************/<br>
+    //和数据库字段名不一样<br>
+    walletTypeCode: <input type="text" name="walletTypeCode" value="00208"> <br>
+    sender:<input type="text" name="sender" value="Others"> <br>
+    senderType:<input type="text" name="senderType" value="Individual"> <br>
+    userType:<input type="text" name="userType" value="Personal"> <br>
+
+    //入金信息<br>
+    countryCode:<input type="text" name="countryCode" value="CN"> <br>
+    currencyCode:<input type="text" name="currencyCode" value="USD"> <br>
+    accountNo:<input type="text" name="accountNo" value="456789"> <br>
+    amount:<input type="text" name="amount" value="999.2"> <br>
+    fiAccountID:<input type="text" name="fiAccountID" value="12"> <br>
+
+    /***********Session用户信息*********/<br>
+    accountName: //firstName+ middlename+lastName <input type="text" name="accountName" value="li xin"> <br>
+    birthday:<input type="text" name="birthday" value="1986-11-12"> <br>
+    streetAddress:<input type="text" name="streetAddress" value="streetAddress"> <br>
+    email:<input type="text" name="email" value="3423423@qq.com"> <br>
+
+    /***********MySelf或者others Individual时的个人信息*********/<br>
+    firstName:<input type="text" name="firstName" value="firstName"> <br>
+    midName:<input type="text" name="midName" value="midName"> <br>
+    lastName:<input type="text" name="lastName" value="lastName"> <br>
+
+
+    /***********MySelf或者others Coporate时的法人信息*********/<br>
+    corporateName:<input type="text" name="corporateName" value="corporateName"> <br>
+    corporateNum:<input type="text" name="corporateNum" value="corporateNum"> <br>
+    establishmentDate:<input type="text" name="establishmentDate" value="2019-02-02"> <br>
+
+    /***********入金目的、资金来源信息*********/<br>
+    sourceOfFunds:<input type="text" name="sourceOfFunds" value="sourceOfFunds"> <br>
+    purposeName:<input type="text" name="purposeName" value="purposeName"> <br>
+    detailsOfPurpose:<input type="text" name="detailsOfPurpose" value="detailsOfPurpose"> <br>
+
+    /*****入金证明资料******/<br>
+    idType:<input type="text" name="idType" value="idType"> <br>
+    idNum:<input type="text" name="idNum" value="idNum"> <br>
+    otherIdType:<input type="text" name="otherIdType" value="otherIdType"> <br>
+    supportEvidence:<input type="text" name="supportEvidence" value="supportEvidence"> <br>
+    senderIdEvidence:<input type="text" name="senderIdEvidence" value="senderIdEvidence"> <br>
+    senderAddressEvidence:<input type="text" name="senderAddressEvidence" value="senderAddressEvidence"> <br>
+    corporateEvidence:<input type="text" name="corporateEvidence" value="corporateEvidence"> <br>
+    remittanceEvidence:<input type="text" name="remittanceEvidence" value="remittanceEvidence"> <br>
+    corporateSupportEvidence:<input type="text" name="corporateSupportEvidence" value="corporateSupportEvidence"> <br>
+    lang:<input type="text" name="lang" value="lang"> <br>
+    /************Reference参数 结束*******************/<br>
+
+    token <input type="text" name="token" value="" size="50"> <br>
+
+    <input type="submit" value="RefConfirm" />
+</form><br><br>
+
+GcConfirm <br>
+<form action="api/gcConfirm" method="post">
+    /************Reference参数 开始11*******************/<br>
+    //和数据库字段名不一样<br>
+    walletTypeCode: <input type="text" name="walletTypeCode" value="00208"> <br>
+
+    firstName:<input type="text" name="firstName" value="firstName"> <br>
+    lastName:<input type="text" name="lastName" value="lastName"> <br>
+    iAccountNo:<input type="text" name="iAccountNo" value="iAccountNo"> <br>
+    email:<input type="text" name="email" value="email"> <br>
+    corporateName:<input type="text" name="corporateName" value="corporateName"> <br>
+
+    country:<input type="text" name="country" value="country"> <br>
+    sendingCurrency:<input type="text" name="sendingCurrency" value="sendingCurrency"> <br>
+    amount:<input type="text" name="amount" value="110.0"> <br>
+    benificiaryCurrency:<input type="text" name="benificiaryCurrency" value="benificiaryCurrency"> <br>
+    exchangeRate:<input type="text" name="exchangeRate" value="2.3"> <br>
+    convertedAmount:<input type="text" name="convertedAmount" value="253"> <br>
+    fee:<input type="text" name="fee" value="2.53"> <br>
+    message:<input type="text" name="message" value="message"> <br>
+
+    paidAmount:<input type="text" name="paidAmount" value="255.3"> <br>
+    paidAmtAfterExchange:<input type="text" name="paidAmtAfterExchange" value="253"> <br>
+    reflectedAmt:<input type="text" name="reflectedAmt" value="253"> <br>
+
+    merchantRef:<input type="text" name="merchantRef" value="merchantRef"> <br>
+    paymentReferenceNo:<input type="text" name="paymentReferenceNo" value="paymentReferenceNo"> <br>
+    orderId:<input type="text" name="orderId" value="12363"> <br>
+
+    accountNumber:<input type="text" name="accountNumber" value="accountNumber"> <br>
+    accountHolderName:<input type="text" name="accountHolderName" value="accountHolderName"> <br>
+    bank:<input type="text" name="bank" value="bank"> <br>
+    city:<input type="text" name="city" value="city"> <br>
+    iban:<input type="text" name="iban" value="iban"> <br>
+    countrySpecificBankID:<input type="text" name="countrySpecificBankID" value="countrySpecificBankID"> <br>
+    swiftCode :<input type="text" name="swiftCode" value="RABOUS66XXX"> <br>
+    status :<input type="text" name="status" value="800"> <br>
+
+    token <input type="text" name="token" value="" size="50"> <br>
+
+    <input type="submit" value="GcConfirm" />
+</form>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liri.reference.dao.MstFiAccountDao" >
+  <select id="selectMaxAndMinMoneyByDate"
+	resultType="com.liri.reference.model.MstFiAccountDto">
+	select 
+		account."FIAccountID",account."FIID",account."FIAccountNo",	account."CurrencyCode" AS "InCurrencyCode",
+		fi."RefInDayAmount",fi."RefInWeekAmount",fi."RefInMonthAmount",fi."RefInQuarterAmount",fi."RefInHalfYearAmount",
+		fi."RefInYearAmount",fi."RefInTimeCalculationMethod",account."FIAccountType",account."FIAccountPurpose",
+		account."FIAccountAddress",account."BankName",account."BankBranchAddress",account."Branch",account."CurrencyCode",
+		account."Iban",cl."MaxMoneyInAmount",cl."MaxMoneyOutAmount",account."Country",cl."CountryPriority",
+		cl."RegionPriority",cl."GlobalPriority",account."InFeeCurrency",account."InFeeAmount",account."InMinFeeAmount",
+		account."InMaxFeeAmount",account."OutFeeCurrency",account."OutFeeAmount",account."OutMinFeeAmount",
+		account."FIBalance",account."FIReservedAmount",account."FIReservedCancelAmount",cl."StartDate",cl."EndDate",
+		account."Remarks",account."IsDelete",cl."MinMoneyInAmount",cl."MinMoneyOutAmount",cl."CountryPriorityOut",
+		cl."RegionPriorityOut",cl."GlobalPriorityOut",cl."StartDateOut",
+		fi."RefInDayQuantity",fi."RefInWeekQuantity",fi."RefInMonthQuantity",
+		fi."RefInQuarterQuantity",fi."RefInHalfYearQuantity",fi."RefInYearQuantity"
+	FROM "MST_FI_ACCOUNT_LIMIT" cl
+	LEFT JOIN "MST_FI_ACCOUNT" account on
+	cl."FIAccountID" = account."FIAccountID"
+	INNER JOIN "MST_FI" fi on
+	account."FIID" = fi."FIID"
+	INNER JOIN "MST_WALLETTYPE" w on w."WalletTypeID" = cl."WalletTypeID"
+	WHERE
+	fi."IsDelete" = 0 and fi."ParentFIID" is null
+	and <![CDATA[ (fi."StartDate" <= to_date(#{nowDate}::TEXT,'yyyy/MM/dd') and fi."EndDate" >= to_date(#{nowDate}::TEXT,'yyyy/MM/dd'))]]>
+	and account."IsDelete" = 0
+	and account."CurrencyCode" = #{currency}
+	and <![CDATA[ (cl."StartDate" <= to_date(#{nowDate}::TEXT,'yyyy/MM/dd') and cl."EndDate" >= to_date(#{nowDate}::TEXT,'yyyy/MM/dd'))]]>
+	and account."FIID" not in
+	(
+		select "FI" from "MST_RISK" risk
+		where risk."RiskCountry" = #{countryCode}
+		AND risk."IsDelete" = 0 AND risk."CheckType"='01' AND risk."CheckCategory"= '01' AND
+		(risk."WalletTypeId"=#{walletTypeID} or risk."WalletTypeId" ISNULL)
+		and <![CDATA[ (risk."StartDate" <= to_date(#{nowDate}::TEXT,'yyyy/MM/dd') and risk."EndDate" >= to_date(#{nowDate}::TEXT,'yyyy/MM/dd'))]]>
+	)
+	<if test="walletTypeCode != null and walletTypeCode != ''">
+		and w."WalletTypeCode" = #{walletTypeCode}
+	</if>
+
+</select>
+
+</mapper>

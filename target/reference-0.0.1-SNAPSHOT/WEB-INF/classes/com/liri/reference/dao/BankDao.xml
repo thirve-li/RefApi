@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liri.reference.dao.BankDao">
+	<select id="selectBankByCountry" resultType="com.liri.reference.model.FICompanyDto">
+		SELECT DISTINCT
+			
+			fi."FIFullName",fi."FIAddress",country."CountryName" AS bankCountry,sw."SwiftCode",
+			company."FullName",countryCom."CountryName" AS comCountry,account."FIAccountID",
+			alimit."FIAccountMemo",company."Address",account."FIAccountNo",fi."FIID",fi."FICode",
+			alimit."CountryPriority",account."InFeeAmount",account."InFeeCurrency",
+			alimit."MaxMoneyInAmount" maxMoney,account."FIBalance" fiBalance,account."Iban",
+			account."CurrencyCode" AS "InCurrencyCode",fi."DepositorType",
+			alimit."RefInDepositorEntityType",fi."IsVIP",
+			alimit."NeedKyc",alimit."NeedSupportEvidence",
+			alimit."NeedSenderIdEvidence",alimit."NeedSenderAddressEvidence",alimit."NeedCorporateEvidence",
+            alimit."NeedRemittanceEvidence",alimit."NeedCorporateSupportEvidence",alimit."NeedKycMemo",
+            fi."RefInNameAccumulativeAmount",fi."CompanyID",fi."FISimpleName",            
+            account."BankName",account."BankBranchAddress",account."FIAccountName",account."FIAccountAddress",account."Branch",account."BranchCode"
+		FROM
+			"MST_FI_ACCOUNT_LIMIT" alimit
+		
+		LEFT JOIN "MST_FI_ACCOUNT" account ON account."FIAccountID" = alimit."FIAccountID"
+		INNER JOIN "MST_FI" fi ON account."FIID" = fi."FIID"
+		
+		LEFT JOIN "MST_COUNTRY" country 
+		ON account."Country" = country."CountryCode" 
+		AND country."WalletTypeID"= (select "WalletTypeID" from "MST_WALLETTYPE" where "WalletTypeCode" = #{walletTypeCode})
+		
+		LEFT JOIN "MST_SWIFT" sw ON sw."SwiftID" = account."SwiftID"
+		
+		LEFT JOIN "MST_COMPANY" company 
+		ON company."FullName" = account."FIAccountName" 
+		and company."Address" = account."FIAccountAddress"
+		and company."IsDelete" = 0
+		
+		LEFT JOIN "MST_COUNTRY" countryCom 
+		ON company."Country" = countryCom."CountryCode" 
+		AND countryCom."WalletTypeID"= (select "WalletTypeID" from "MST_WALLETTYPE" where "WalletTypeCode" = #{walletTypeCode})
+		 
+		LEFT JOIN "MST_WALLETTYPE" w ON w."WalletTypeID" = alimit."WalletTypeID"
+		WHERE fi."IsDelete" = 0
+			AND sw."IsDelete" = 0
+			AND company."IsDelete" = 0
+			AND countryCom."IsDelete" = 0
+			AND account."IsDelete" = 0
+			AND account."Country" = #{countryCode}
+			AND account."CurrencyCode" = #{currency}
+			
+			<![CDATA[		
+			AND (
+				 alimit."RefInDepositorType" IS NULL 
+				 OR alimit."RefInDepositorType" = ''
+				 OR alimit."RefInDepositorType" ~* 'all' 
+				 OR alimit."RefInDepositorType" ~* #{senderType}
+			) 
+			]]>
+			  
+			 <![CDATA[ 
+			 AND (	 
+			  alimit."RefInDepositorEntityType" IS NULL 
+			  OR alimit."RefInDepositorEntityType" = ''
+			  OR alimit."RefInDepositorEntityType" ~* 'all' 
+			  OR alimit."RefInDepositorEntityType" ~* #{userType} 	
+			 )
+			 ]]>
+			
+			AND <![CDATA[(alimit."StartDate" <= to_date(#{nowDate}::TEXT,'yyyy/MM/dd') AND alimit."EndDate" >= to_date(#{nowDate}::TEXT,'yyyy/MM/dd'))]]>
+			AND account."FIAccountID" IN 
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")" >
+		    	#{item}
+			</foreach>
+			AND fi."ParentFIID" IS NULL
+			AND <![CDATA[ (fi."StartDate" <= to_date(#{nowDate}::TEXT,'yyyy/MM/dd') and fi."EndDate" >= to_date(#{nowDate}::TEXT,'yyyy/MM/dd'))]]>
+			and w."WalletTypeCode" = #{walletTypeCode}
+			ORDER BY
+				alimit."CountryPriority"
+	</select>
+	<select id="selectBankByRegion" resultType="com.liri.reference.model.FICompanyDto">
+		SELECT DISTINCT
+			fi."FIFullName",
+			fi."FIAddress",
+			country."CountryName" AS bankCountry,
+			sw."SwiftCode",
+			company."FullName",
+			countryCom."CountryName" AS comCountry,
+			account."FIAccountID",
+			alimit."FIAccountMemo",
+			company."Address",
+			account."FIAccountNo",
+			fi."FIID",
+			fi."FICode",
+			fi."RefInNameAccumulativeAmount",
+			alimit."CountryPriority",
+			account."InFeeAmount",
+			account."InFeeCurrency",
+			alimit."MaxMoneyInAmount" maxMoney,
+			account."FIBalance" fiBalance,
+			account."Iban",
+			account."CurrencyCode" AS "InCurrencyCode",
+			fi."DepositorType",
+			alimit."RegionPriority",
+			alimit."RefInDepositorEntityType",fi."IsVIP",
+			alimit."NeedKyc",alimit."NeedSupportEvidence",
+			alimit."NeedSenderIdEvidence",alimit."NeedSenderAddressEvidence",alimit."NeedCorporateEvidence",
+            alimit."NeedRemittanceEvidence",alimit."NeedCorporateSupportEvidence",alimit."NeedKycMemo",
+            fi."RefInNameAccumulativeAmount",fi."CompanyID",fi."FISimpleName",
+            account."BankName",account."BankBranchAddress",account."FIAccountName",account."FIAccountAddress",account."Branch",account."BranchCode"
+		FROM "MST_FI_ACCOUNT_LIMIT" alimit
+		LEFT JOIN	"MST_FI_ACCOUNT" account
+		ON account."IsDelete" = 0 AND account."FIAccountID" = alimit."FIAccountID"
+		INNER JOIN "MST_FI" fi ON fi."IsDelete" = 0
+		AND account."FIID" = fi."FIID"
+		AND fi."ParentFIID" IS NULL
+		AND <![CDATA[ (fi."StartDate" <= to_date(#{nowDate}::TEXT,'yyyy-MM-dd') AND fi."EndDate" >= to_date(#{nowDate}::TEXT,'yyyy-MM-dd')) ]]>
+		
+		INNER JOIN "MST_COUNTRY" country ON country."IsDelete" = 0
+		AND account."Country" = country."CountryCode" AND country."WalletTypeID"= (select "WalletTypeID" from "MST_WALLETTYPE" where "WalletTypeCode" = #{walletTypeCode})
+		AND country."RegionID" = #{regionID}
+		
+		LEFT JOIN "MST_SWIFT" sw ON sw."IsDelete" = 0
+		AND sw."SwiftID" = account."SwiftID"
+		
+		LEFT JOIN "MST_COMPANY" company 
+		ON company."FullName" = account."FIAccountName" 
+		and company."Address" = account."FIAccountAddress"
+		and company."IsDelete" = 0
+		
+		LEFT JOIN "MST_COUNTRY" countryCom 
+		ON company."Country" = countryCom."CountryCode" 
+		AND countryCom."IsDelete" = 0
+		AND countryCom."WalletTypeID"= (select "WalletTypeID" from "MST_WALLETTYPE" where "WalletTypeCode" = #{walletTypeCode})
+		
+		LEFT JOIN "MST_WALLETTYPE" w ON w."WalletTypeID" = alimit."WalletTypeID"
+		WHERE account."IsDelete" = 0
+		AND <![CDATA[ account."Country" <> #{countryCode}]]>
+		AND account."CurrencyCode" = #{currency}
+		AND <![CDATA[ (alimit."StartDate" <= to_date(#{nowDate}::TEXT,'yyyy-MM-dd') AND alimit."EndDate" >= to_date(#{nowDate}::TEXT,'yyyy-MM-dd')) ]]>
+		
+		<![CDATA[		
+		AND (
+		  	 alimit."RefInDepositorType" IS NULL 
+			 OR alimit."RefInDepositorType" = ''
+			 OR alimit."RefInDepositorType" ~* 'all' 
+			 OR alimit."RefInDepositorType" ~* #{senderType}
+		) 
+		]]>
+		  
+		 
+		 <![CDATA[ 
+		 AND (	 
+	      alimit."RefInDepositorEntityType" IS NULL 
+	      OR alimit."RefInDepositorEntityType" = ''
+		  OR alimit."RefInDepositorEntityType" ~* 'all' 
+		  OR alimit."RefInDepositorEntityType" ~* #{userType} 	
+	 	 )
+	 	 ]]>
+	    
+		
+		AND account."FIAccountID" IN 
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item} 
+		</foreach>
+		and w."WalletTypeCode" = #{walletTypeCode}
+		ORDER BY alimit."RegionPriority"
+	</select>
+	<select id="selectBankByGlobal" resultType="com.liri.reference.model.FICompanyDto">
+		SELECT DISTINCT
+			fi."FIFullName",
+			fi."FIAddress",
+			country."CountryName" AS bankCountry,
+			sw."SwiftCode",
+			company."FullName",
+			countryCom."CountryName" AS comCountry,
+			account."FIAccountID",
+			alimit."FIAccountMemo",
+			company."Address",
+			account."FIAccountNo",
+			fi."FIID",
+			fi."FICode",
+			alimit."CountryPriority",
+			account."InFeeAmount",
+			account."InFeeCurrency",
+			alimit."MaxMoneyInAmount" maxMoney,
+			account."FIBalance" fiBalance,
+			account."Iban",
+			account."CurrencyCode" AS "InCurrencyCode",
+			fi."DepositorType",
+			alimit."GlobalPriority",
+			alimit."RefInDepositorEntityType",fi."IsVIP",
+			alimit."NeedKyc",alimit."NeedSupportEvidence",
+			alimit."NeedSenderIdEvidence",alimit."NeedSenderAddressEvidence",alimit."NeedCorporateEvidence",
+            alimit."NeedRemittanceEvidence",alimit."NeedCorporateSupportEvidence",alimit."NeedKycMemo",
+            fi."RefInNameAccumulativeAmount",fi."CompanyID",fi."FISimpleName",
+            account."BankName",account."BankBranchAddress",account."FIAccountName",account."FIAccountAddress",account."Branch",account."BranchCode"
+		FROM "MST_FI_ACCOUNT_LIMIT" alimit
+		LEFT JOIN "MST_FI_ACCOUNT" account ON account."FIAccountID" = alimit."FIAccountID"
+		INNER JOIN "MST_FI" fi ON fi."IsDelete" = 0
+		AND account."FIID" = fi."FIID"
+		AND fi."ParentFIID" IS NULL
+		AND <![CDATA[ (	fi."StartDate" <= to_date(#{nowDate}::TEXT,'yyyy-MM-dd') AND fi."EndDate" >= to_date(#{nowDate}::TEXT,'yyyy-MM-dd'))]]>
+		
+		INNER JOIN "MST_COUNTRY" country ON country."IsDelete" = 0
+		AND account."Country" = country."CountryCode" AND country."WalletTypeID"= (select "WalletTypeID" from "MST_WALLETTYPE" where "WalletTypeCode" = #{walletTypeCode})
+		<![CDATA[ AND country."RegionID" <> #{regionID}]]>
+		
+		LEFT JOIN "MST_SWIFT" sw ON sw."IsDelete" = 0
+		AND sw."SwiftID" = account."SwiftID"
+		
+		 
+		LEFT JOIN "MST_COMPANY" company 
+		ON company."FullName" = account."FIAccountName" 
+		and company."Address" = account."FIAccountAddress"
+		and company."IsDelete" = 0
+		
+		LEFT JOIN "MST_COUNTRY" countryCom 
+		ON company."Country" = countryCom."CountryCode" 
+		AND countryCom."IsDelete" = 0
+		AND countryCom."WalletTypeID"= (select "WalletTypeID" from "MST_WALLETTYPE" where "WalletTypeCode" = #{walletTypeCode})
+		
+		LEFT JOIN "MST_WALLETTYPE" w ON w."WalletTypeID" = alimit."WalletTypeID"
+		WHERE account."IsDelete" = 0
+		AND <![CDATA[ account."Country" <> #{countryCode}]]>
+		AND account."CurrencyCode" = #{currency}
+		AND <![CDATA[ (alimit."StartDate" <= to_date(#{nowDate}::TEXT,'yyyy-MM-dd') AND alimit."EndDate" >= to_date(#{nowDate}::TEXT,'yyyy-MM-dd'))]]>
+		
+		<![CDATA[		
+		AND (
+		  	 alimit."RefInDepositorType" IS NULL 
+			 OR alimit."RefInDepositorType" = ''
+			 OR alimit."RefInDepositorType" ~* 'all' 
+			 OR alimit."RefInDepositorType" ~* #{senderType}
+		) 
+		]]>
+		  
+		 
+		 <![CDATA[ 
+		 AND (	 
+	      alimit."RefInDepositorEntityType" IS NULL 
+	      OR alimit."RefInDepositorEntityType" = ''
+		  OR alimit."RefInDepositorEntityType" ~* 'all' 
+		  OR alimit."RefInDepositorEntityType" ~* #{userType} 	
+	 	 )
+	 	 ]]>
+	     
+		
+		AND account."FIAccountID" IN 
+		<foreach item="item" index="index" collection="list" open="(" separator = "," close=")"> 
+			#{item} 
+		</foreach>
+		and w."WalletTypeCode" = #{walletTypeCode}
+		ORDER BY alimit."GlobalPriority"
+	</select>
+	
+	<select id="selectChildBanks" resultType="com.liri.reference.model.MstFiAccountDto" parameterType="java.lang.Integer">
+		select fiAct."FIAccountID",fiAct."FIID",fiAct."FIAccountNo",fiAct."FIAccountType",
+			fiAct."FIAccountPurpose",fiAct."CurrencyCode" ,
+			fiAct."Country",fiAct."Region",fiAct."InFeeCurrency",fiAct."InFeeAmount",fiAct."InMinFeeAmount",fiAct."InMaxFeeAmount",fiAct."OutFeeCurrency",
+			fiAct."OutFeeAmount",fiAct."OutMinFeeAmount",fiAct."OutMaxFeeAmount",
+			fiAct."FIBalance",fiAct."FIReservedAmount",fiAct."FIReservedCancelAmount",
+			fiAct."Status",fiAct."Remarks",
+			fiAct."CreateTime",fiAct."CreateUser",fiAct."UpdateTime",fiAct."UpdateUser",
+			fiAct."IsDelete",fiAct."Version",fiAct."Iban",fiAct."LbtInBalance",fiAct."MemoToStaff",fiAct."InCurrencyCode",
+			fiAct."LbtInFeeAmount",fiAct."LbtOutFeeAmount",fiAct."BankName",fiAct."Branch",
+			fiAct."BankBranchAddress",fiAct."SwiftID",fiAct."FIAccountName",fiAct."FIAccountAddress",
+			fiAct."ParentFIAccountID",sw."SwiftCode",country."CountryName" as countryName
+			from "MST_FI_ACCOUNT" fiAct
+		LEFT JOIN "MST_COUNTRY" country on fiAct."Country" = country."CountryCode"
+		LEFT JOIN "MST_SWIFT" sw on sw."SwiftID" = fiAct."SwiftID"
+		WHERE country."IsDelete" = 0
+		AND sw."IsDelete" = 0
+		AND fiAct."IsDelete" = 0
+		AND fiAct."FIID"=#{fiID}
+		AND fiAct."ParentFIAccountID"=#{fiAccountID}
+		AND country."WalletTypeID" = (select "WalletTypeID" from "MST_WALLETTYPE" where "WalletTypeCode" = #{walletTypeCode});
+	</select>  
+	
+	
+	 <select id="selectValidCurrency"
+		resultType="com.liri.reference.model.MstCurrency">
+		select currency.*
+		FROM "MST_CURRENCY" currency
+		INNER JOIN (
+			SELECT account."CurrencyCode"
+			FROM "MST_FI_ACCOUNT_LIMIT" fi LEFT JOIN "MST_FI_ACCOUNT" account on
+			fi."FIAccountID" = account."FIAccountID"
+			WHERE <![CDATA[ (fi."StartDate" <= to_date(#{nowDate}::TEXT,'yyyy-MM-dd') and fi."EndDate" >= to_date(#{nowDate}::TEXT,'yyyy-MM-dd'))]]>
+			AND account."IsDelete" = 0
+			GROUP BY account."CurrencyCode"
+		) fi ON fi."CurrencyCode" =
+		currency."CurrencyCode"
+		where "IsDelete" = 0
+		order by "Sequence"
+	</select>
+   <select id="selectRefInAmount" resultType="com.liri.reference.model.BankInInfoDto" parameterType="com.liri.reference.model.MstImpBankInInfo">
+	         SELECT
+			  "OriginalCurrency",sum("OriginalAmount") as "OriginalAmount"
+		  FROM
+			"${walletTypeSchema}"."IMP_BANK_IN_INFO" info
+			WHERE
+				info."BankIn_ScheduledDate"is not null
+			AND
+			<![CDATA[ info."BankIn_ScheduledDate" >=  #{dateFrom,jdbcType=VARCHAR}]]>
+			AND
+			<![CDATA[ info."BankIn_ScheduledDate" <=  #{dateTo,jdbcType=VARCHAR}]]>
+			AND info."IsDelete" = 0
+			AND
+	      			info."BankIn_ReceiveFIAccount" in (SELECT
+			       "T03"."FIAccountID"
+					from
+			       "MST_FI_ACCOUNT" AS "T03"
+			    INNER JOIN
+			    (SELECT
+						"T01"."FIID"
+					from
+						"MST_FI_ACCOUNT" AS "T01"
+					where
+						"T01"."IsDelete" = 0
+						AND "T01"."FIAccountID" =  #{fiAccountID,jdbcType=INTEGER}) "T02"
+			    ON
+			     "T03"."FIID" = "T02"."FIID")
+			  group by  "OriginalCurrency"
+  </select>
+
+	<select id="selectWalletTypeSchema" resultType="java.lang.String"  parameterType="com.liri.reference.model.MstImpBankInInfo">
+		SELECT
+			w."WalletTypeSchema"
+		FROM
+			"public"."MST_FI" fi 
+		  LEFT JOIN "MST_FI_ACCOUNT" act ON fi."FIID" = act."FIID"
+		  LEFT JOIN "public"."MST_WALLETTYPE" w ON w."WalletTypeID" = fi."WalletTypeID"
+		where
+		  act."FIAccountID" = #{ fiAccountID, jdbcType = INTEGER}
+	</select>
+  
+   <select id="selectRefInCount" resultType="java.lang.Integer" parameterType="com.liri.reference.model.MstImpBankInInfo">
+	         SELECT
+			  count(*)
+		  FROM
+			"${walletTypeSchema}"."IMP_BANK_IN_INFO" info
+			WHERE
+				info."BankIn_ScheduledDate"is not null
+			AND
+			<![CDATA[ info."BankIn_ScheduledDate" >=  #{dateFrom,jdbcType=VARCHAR}]]>
+			AND
+			<![CDATA[ info."BankIn_ScheduledDate" <=  #{dateTo,jdbcType=VARCHAR}]]>
+			AND info."IsDelete" = 0
+			AND
+	      			info."BankIn_ReceiveFIAccount" in (SELECT
+			       "T03"."FIAccountID"
+					from
+			       "MST_FI_ACCOUNT" AS "T03"
+			    INNER JOIN
+			    (SELECT
+						"T01"."FIID"
+					from
+						"MST_FI_ACCOUNT" AS "T01"
+					where
+						"T01"."IsDelete" = 0
+						AND "T01"."FIAccountID" =  #{fiAccountID,jdbcType=INTEGER}) "T02"
+			    ON
+			     "T03"."FIID" = "T02"."FIID")
+  </select>
+  
+  	<select id="selectChildBank" resultType="com.liri.reference.model.FICompanyDto" parameterType="java.lang.Integer">
+		SELECT
+			fi."FIFullName" AS fiFullName,
+			fi."FIAddress" AS fiAddress,
+			country."CountryName" AS bankCountry,
+			sw."SwiftCode" AS swiftCode,
+			company."FullName" AS fullName,
+			countryCom."CountryName" AS comCountry,
+			account."FIAccountID" AS fiAccountID,
+			account."FIAccountName" AS fiAccountName,
+			account."BankName" AS bankName,
+			account."BankBranchAddress" AS bankBranchAddress,
+			account."FIAccountAddress" AS fiAccountAddress,
+			account."Branch" AS branch,
+			account."BranchCode" AS branchCode,
+			alimit."FIAccountMemo" AS fiAccountMemo,
+			company."Address" AS address,
+			account."FIAccountNo" AS fiAccountNo,
+			fi."FIID" AS fiID,
+			fi."FICode" AS fiCode,
+			alimit."CountryPriority" AS countryPriority,
+			account."InFeeAmount" AS inFeeAmount,
+			account."InFeeCurrency" AS inFeeCurrency,
+			alimit."MaxMoneyInAmount" AS maxMoney,
+			account."FIBalance" AS fiBalance,
+			account."Iban" AS iban,
+			account."CurrencyCode" AS "currencyCode",
+			fi."DepositorType" AS depositorType,
+			alimit."RefInDepositorEntityType" AS refInDepositorEntityType,
+			fi."IsVIP" AS isVIP
+		FROM
+			"MST_FI_ACCOUNT_LIMIT" alimit
+			LEFT JOIN "MST_FI_ACCOUNT" account ON account."FIAccountID" = alimit."FIAccountID"
+			INNER JOIN "MST_FI" fi ON account."FIID" = fi."FIID" 
+			AND fi."ParentFIID"
+			IS NULL LEFT JOIN "MST_COUNTRY" country ON country."IsDelete" = 0 
+			AND fi."FICountryCode" = country."CountryCode"
+			LEFT JOIN "MST_SWIFT" sw ON sw."IsDelete" = 0 
+			AND sw."SwiftID" = fi."SwiftID"
+			LEFT JOIN "MST_COMPANY" company ON company."IsDelete" = 0 
+			AND fi."CompanyID" = company."ID"
+			LEFT JOIN "MST_COUNTRY" countryCom ON countryCom."IsDelete" = 0 
+			AND company."Country" = countryCom."CountryCode" 
+		WHERE
+			account."IsDelete" = 0 
+			AND account."FIAccountID" = '${fiAccountID}'
+			AND account."ParentFIAccountID" IS NULL 
+		ORDER BY
+			alimit."CountryPriority"
+		
+	</select>  
+  
+</mapper>
